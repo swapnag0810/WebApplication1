@@ -1,6 +1,8 @@
 
 using Microsoft.EntityFrameworkCore;
+using WebApplication1.Models.DBFirstApproach;
 using WebApplication1.Models;
+using WebApplication1.Services;
 
 var MyAllowSpecificOrigins = "myapp";
 
@@ -26,6 +28,11 @@ builder.Services.AddCors(options =>
 
 //add DB conn
 builder.Services.AddDbContext<SampleDBContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("SampleDBConnStr")));
+builder.Services.AddDbContext<TestdbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("SampleDBConnStrOther")));
+//add third party service
+builder.Services.AddSingleton<IThirdPartyHolidayService, ThirdPartyHolidayService>();
+builder.Services.AddHttpClient("PublicHolidaysApi", c => c.BaseAddress = new Uri("https://date.nager.at"));
+
 
 var app = builder.Build();
 
@@ -34,7 +41,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-}
+} 
 
 app.UseHttpsRedirection();
 

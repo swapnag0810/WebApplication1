@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WebApplication1.Models;
 using Microsoft.EntityFrameworkCore;
+using WebApplication1.Services;
 
 namespace WebApplication1.Controllers
 {
@@ -8,17 +9,15 @@ namespace WebApplication1.Controllers
     [Route("api/[controller]/[action]")]
     public class ProductsController : ControllerBase
     {
-        private static readonly string[] Summaries = new[]
-        {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
         private readonly ILogger<ProductsController> _logger;
         private SampleDBContext _sampleContext;
+        private IThirdPartyHolidayService thirdPartyHolidaySvc ;
 
-        public ProductsController(ILogger<ProductsController> logger, SampleDBContext sampleContext)
+        public ProductsController(ILogger<ProductsController> logger, SampleDBContext sampleContext, IThirdPartyHolidayService thirdPartyHoliday)
         {
             _logger = logger;
             _sampleContext = sampleContext;
+            thirdPartyHolidaySvc = thirdPartyHoliday;
         }
 
         // GET: api/<ProductsController>/GetProducts
@@ -26,6 +25,16 @@ namespace WebApplication1.Controllers
         public IEnumerable<Product> GetProducts()
         {
             return _sampleContext.Products;
+        }
+
+        // GET: api/<ProductsController>
+        [HttpGet]
+        public async Task<List<ThirdPartyHoliday>> GetHolidays()
+        {
+            //return (IEnumerable<ThirdPartyHoliday>)thirdPartyHolidaySvc.GetHolidays("US", 2023);
+            List<ThirdPartyHoliday> holidays = new List<ThirdPartyHoliday>();
+            holidays = await thirdPartyHolidaySvc.GetHolidays("US", 2023);
+            return holidays;
         }
 
         // GET api/<ProductsController>/5
