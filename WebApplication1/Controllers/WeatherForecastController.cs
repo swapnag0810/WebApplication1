@@ -29,5 +29,22 @@ namespace WebApplication1.Controllers
             })
             .ToArray();
         }
+
+        //[HttpGet(Name = "trylinq")]
+        //public void tryLinq()
+        //{
+        //    // Data source
+        //    string[] names = { "test1", "test2", "test3", "test4" };
+
+        //    // LINQ Query 
+        //    var myLinqQuery = from name in names
+        //                      where name.Contains('a')
+        //                      select name;
+        //    string str = "";
+        //    // Query execution
+        //    foreach (var name in myLinqQuery)
+        //        str = str + name;
+
+        //}
     }
 }
