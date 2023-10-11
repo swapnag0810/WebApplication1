@@ -44,7 +44,7 @@ namespace WebApplication1.Controllers
             Student[] teenAgerStudents = studentArray.Where(s => s.Age > 12 && s.Age < 20).ToArray();
 
             // Use LINQ to find first student whose name is test1 
-            Student bill = studentArray.Where(s => s.StudentName == "Bill").FirstOrDefault();
+            Student bill = studentArray.Where(s => s.StudentName == "Test1").FirstOrDefault();
 
             // Use LINQ to find student whose StudentID is 5
             Student student5 = studentArray.Where(s => s.StudentID == 5).FirstOrDefault();

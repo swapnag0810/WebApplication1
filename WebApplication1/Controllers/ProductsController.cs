@@ -22,9 +22,22 @@ namespace WebApplication1.Controllers
 
         // GET: api/<ProductsController>/GetProducts
         [HttpGet(Name = "GetProducts")]
-        public IEnumerable<Product> GetProducts()
+        public IEnumerable<Product>? GetProducts()
         {
-            return _sampleContext.Products;
+            try
+            {
+
+
+                _logger.LogInformation("Get Products page visited at {DT}",
+                 DateTime.UtcNow.ToLongTimeString());
+
+                return _sampleContext.Products;
+            }
+            catch(Exception ex)
+            {
+                //_logger.LogWarning(MyLogEvents.GetItemNotFound, "Get Products NOT FOUND");
+                return null;
+            }
         }
 
         // GET: api/<ProductsController>

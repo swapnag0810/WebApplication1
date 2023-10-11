@@ -3,11 +3,16 @@ using Microsoft.EntityFrameworkCore;
 using WebApplication1.Models.DBFirstApproach;
 using WebApplication1.Models;
 using WebApplication1.Services;
+using Serilog;
 
 var MyAllowSpecificOrigins = "myapp";
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
+
+//builder.Logging.AddSerilog(logger);
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -35,6 +40,11 @@ builder.Services.AddHttpClient("PublicHolidaysApi", c => c.BaseAddress = new Uri
 
 
 var app = builder.Build();
+
+app.Logger.LogInformation("Adding Routes");
+app.MapGet("/", () => "Hello World!");
+app.Logger.LogInformation("Starting the app");
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
